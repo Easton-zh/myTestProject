@@ -1,0 +1,56 @@
+@startuml
+actor 店员 as employee
+entity pad
+control 打卡系统 as punch
+control 门店C端系统 as cvs_promotion
+control 考勤系统 as attendance
+control PS as ps
+control 人脸服务 as face
+control WMQ as mq
+database db
+
+employee -> pad : 点击人脸识别
+pad --> employee : 跳转考勤登录界面
+employee -> pad : 点击门店学员
+pad --> employee : 展示
+employee -> pad : 点击兼职学员
+pad --> employee : 提示需要验证码
+note right : 历史功能
+employee -> pad : 输入手机号并通过短信验证
+group 上传体温
+pad --> employee : 提示输入体温
+employee -> pad : 上传体温数据
+pad -> punch : 发起上传http请求
+note right : 上传数据接口增加手机号属性
+punch -> db : 保存温度上传记录
+note right : 增加手机号属性
+db --> punch
+punch -> ps : 基于手机号查询员工信息
+ps --> punch
+punch -> db : 保存打卡流程流水
+note right : 增加phone、extend_content属性\n保存手机号、身份证号信息
+db --> punch
+punch --> pad
+pad --> employee
+end
+group 打卡
+    employee -> pad : 点击确认培训
+    note right : 刷脸打卡
+    pad -> punch : 发起打卡请求
+    punch -> ps : 基于手机号查询员工信息
+    ps --> punch
+    punch -> face : 人脸识别
+    note right : 基于员工身份证号识别人脸
+    face --> punch
+    punch -> db : 保存上/下班打卡流水
+    note right : 增加手机号属性、没有工号信息
+    punch -> mq : 发送打卡消息
+    note right : 为培训系统提供
+    mq --> punch
+    punch -> db : 保存打卡流水信息
+    note right : 增加phone、extend_content属性\n保存手机号、身份证号信息
+    db --> punch
+    punch --> pad
+    pad --> employee : 确认到店
+end
+@enduml

@@ -1,0 +1,40 @@
+【Mybatis】
+一. 认识框架
+1.什么是框架？what
+   框架就是一个半成品
+  对于java来说，在框架的基础进行开发
+2.框架要解决什么问题？what
+    解决技术整合问题：优秀的框架把基础技术整合完了，在框架的基础上进一步开发
+3.什么时候用框架？when，where
+    企业级项目
+4.怎么用框架？how
+    引入一堆jar包，工程
+    对框架运行细节进行定制，往往通过xml配置文件
+    在java程序用中调用框架的API
+
+二. 软件分层及常用框架
+1.什么是分层？
+    把不同功能代码放到不同文件中，本质就是代码拆分
+    经典分层：web表现层，service层，dao层
+2.分层好处？
+    代码清晰，解耦，易于维护，出现问题易于定位。
+3.分层下常用框架？
+    dao层：mybatis，mybatisPlus，hibernate
+    service层：spring
+    controller层：springMVC
+
+三.原生JDBC操作数据库分析
+
+package com.abc.zh.dao.UserDaoImpl 类;
+
+
+四.Mybatis概述：是什么what？特点？思想？和hibernate对比
+    what？是一个优秀的持久层框架，它是对JDBC的封装，是开发者只需关注sql本身即可。无需获取加载驱动，创建连接，创建statement等频繁的过程。
+    特点：就是将sql写在xml配置文件中，mybatis执行完返回对象形式
+    思想：实现ORM思想框架：对象关系映射
+            ORM思想：将数据库关系表映射为java中的对象，把操作数据库表转化为对对象的操作，实现面向对象编程。
+    与hibernate对比：
+        hibernate是一个全自动ORM持久层框架，只需编写pojo，在xml中定义好pojo属性和数据库表字段映射关系。因为性能问题，市场占有率低
+        mybatis是一个半自动ORM持久层框架，需要我们自己写sql。
+
+五.自定义Mybatis框架
